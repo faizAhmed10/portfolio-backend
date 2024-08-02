@@ -3,4 +3,5 @@ __pycache__/
 *.pyo
 db.sqlite3
 /myenv
+.env
 

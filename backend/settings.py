@@ -217,7 +217,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    os.path.join(BASE_DIR, 'staticfiles'),
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 

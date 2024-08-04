@@ -1,5 +1,3 @@
-# your_app/management/commands/migrate_images.py
-
 from django.core.management.base import BaseCommand
 import os
 import cloudinary
@@ -14,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Configure Cloudinary
         cloudinary.config(
-            cloud_name = 'df6mtsf0x',
+            cloud_name='df6mtsf0x',
             api_key='572541956944991',
             api_secret='lRYkY9u4cLHUdLjGcc2T2d2xoYo'
         )
@@ -48,7 +46,8 @@ class Command(BaseCommand):
             # Save the image locally
             temp_image_path = f'/tmp/{model_id}.jpg'
             with open(temp_image_path, 'wb') as f:
-                f.write(image_data)
+                # Handle image data as binary
+                f.write(image_data.encode('latin1') if isinstance(image_data, str) else image_data)
 
             # Upload to Cloudinary
             result = cloudinary.uploader.upload(temp_image_path)

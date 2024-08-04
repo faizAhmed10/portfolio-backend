@@ -39,7 +39,7 @@ class Command(BaseCommand):
         cursor.execute("SELECT id, image FROM api_website")
         rows = cursor.fetchall()
 
-        base_directory = 'media/SiteImg'  # Updated to reflect the correct relative path
+        base_directory = 'backend/media/SiteImg'  # Updated to reflect the correct relative path
 
         for row in rows:
             model_id = row[0]

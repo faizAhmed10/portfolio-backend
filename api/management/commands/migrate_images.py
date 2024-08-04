@@ -39,9 +39,11 @@ class Command(BaseCommand):
         cursor.execute("SELECT id, image FROM api_website")
         rows = cursor.fetchall()
 
+        base_directory = '/media/SiteImg'  # Adjust this to your actual media directory
+
         for row in rows:
             model_id = row[0]
-            image_path = row[1]
+            image_path = os.path.join(base_directory, row[1])  # Construct the full path
 
             # Ensure the image path is valid and exists on the filesystem
             if os.path.exists(image_path):

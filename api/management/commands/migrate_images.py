@@ -6,7 +6,7 @@ import cloudinary
 import cloudinary.uploader
 import psycopg2
 from urllib.parse import urlparse
-from your_app.models import YourModel
+from api.models import Website
 
 class Command(BaseCommand):
     help = 'Migrate images from PostgreSQL to Cloudinary'
@@ -55,7 +55,7 @@ class Command(BaseCommand):
             cloudinary_url = result['url']
 
             # Update your model with the Cloudinary URL
-            model_instance = YourModel.objects.get(id=model_id)
+            model_instance = Website.objects.get(id=model_id)
             model_instance.image = cloudinary_url
             model_instance.save()
 

@@ -41,25 +41,20 @@ class Command(BaseCommand):
 
         for row in rows:
             model_id = row[0]
-            image_data = row[1]
+            image_path = row[1]
 
-            # Save the image locally
-            temp_image_path = f'/tmp/{model_id}.jpg'
-            with open(temp_image_path, 'wb') as f:
-                # Handle image data as binary
-                f.write(image_data.encode('latin1') if isinstance(image_data, str) else image_data)
+            # Ensure the image path is valid and exists on the filesystem
+            if os.path.exists(image_path):
+                # Upload to Cloudinary
+                result = cloudinary.uploader.upload(image_path)
+                cloudinary_url = result['url']
 
-            # Upload to Cloudinary
-            result = cloudinary.uploader.upload(temp_image_path)
-            cloudinary_url = result['url']
-
-            # Update your model with the Cloudinary URL
-            model_instance = Website.objects.get(id=model_id)
-            model_instance.image = cloudinary_url
-            model_instance.save()
-
-            # Remove the local file
-            os.remove(temp_image_path)
+                # Update your model with the Cloudinary URL
+                model_instance = Website.objects.get(id=model_id)
+                model_instance.image = cloudinary_url
+                model_instance.save()
+            else:
+                self.stdout.write(self.style.WARNING(f'Image path does not exist: {image_path}'))
 
         # Close the database connection
         cursor.close()
